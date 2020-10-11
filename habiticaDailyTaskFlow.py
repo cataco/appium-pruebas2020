@@ -75,7 +75,7 @@ class HabiticaDailyFlow(unittest.TestCase):
         time.sleep(1)
         self.driver.find_element_by_xpath("//*[@text='Delete Task']").click()
         time.sleep(1)
-        self.assertFalse(self.driver.find_element_by_xpath("//*[@text='apippium daily-EDIT']").is_displayed())
+        self.assertTrue(self.driver.find_element_by_id("com.habitrpg.android.habitica:id/emptyViewTitle").is_displayed())
 
     @classmethod
     def tearDownClass(cls):

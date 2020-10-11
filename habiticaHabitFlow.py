@@ -50,7 +50,6 @@ class HabiticaHabitFlow(unittest.TestCase):
         time.sleep(2)
         self.assertTrue(self.driver.find_element_by_xpath("//*[@text='apippium habit']").is_displayed())
 
-    @pytest.mark.dependency(depends=["test_create_habit"])
     def test_created_habit_validation(self):
         self.driver.find_element_by_id("com.habitrpg.android.habitica:id/main_task_wrapper").click()
         time.sleep(2)
@@ -60,13 +59,11 @@ class HabiticaHabitFlow(unittest.TestCase):
         self.assertEqual(name, 'apippium habit')
         self.assertEqual(note, 'test habit')
 
-    @pytest.mark.dependency(depends=["test_read_habit"])
     def test_edit_habit(self):
         self.driver.find_element_by_id("com.habitrpg.android.habitica:id/text_edit_text").send_keys('apippium habit-EDIT')
         self.driver.find_element_by_id('com.habitrpg.android.habitica:id/action_save').click()
         time.sleep(2)
         self.assertTrue(self.driver.find_element_by_xpath("//*[@text='apippium habit-EDIT']").is_displayed())
-
 
     def test_remove_habit(self):
         self.driver.find_element_by_id("com.habitrpg.android.habitica:id/main_task_wrapper").click()
@@ -75,7 +72,7 @@ class HabiticaHabitFlow(unittest.TestCase):
         time.sleep(1)
         self.driver.find_element_by_xpath("//*[@text='Delete Task']").click()
         time.sleep(1)
-        self.assertTrue(self.driver.find_element_by_xpath("//*[@text='apippium habit-EDIT']").is_displayed())
+        self.assertTrue(self.driver.find_element_by_id("com.habitrpg.android.habitica:id/emptyViewTitle").is_displayed())
 
     @classmethod
     def tearDownClass(cls):
