@@ -62,14 +62,16 @@ class HabiticaHabitFlow(unittest.TestCase):
 
     @pytest.mark.dependency(depends=["test_read_habit"])
     def test_edit_habit(self):
-        self.driver.find_element_by_id("com.habitrpg.android.habitica:id/text_edit_text").send_keys('-EDIT')
+        self.driver.find_element_by_id("com.habitrpg.android.habitica:id/text_edit_text").send_keys('apippium habit-EDIT')
         self.driver.find_element_by_id('com.habitrpg.android.habitica:id/action_save').click()
         time.sleep(2)
-        self.assertFalse(self.driver.find_element_by_xpath("//*[@text='apippium habit-EDIT']").is_displayed())
+        self.assertTrue(self.driver.find_element_by_xpath("//*[@text='apippium habit-EDIT']").is_displayed())
 
 
     def test_remove_habit(self):
         self.driver.find_element_by_id("com.habitrpg.android.habitica:id/main_task_wrapper").click()
+        time.sleep(1)
+        self.driver.find_element_by_id("com.habitrpg.android.habitica:id/action_delete").click()
         time.sleep(1)
         self.driver.find_element_by_xpath("//*[@text='Delete Task']").click()
         time.sleep(1)
