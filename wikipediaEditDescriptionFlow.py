@@ -1,3 +1,4 @@
+import json
 import os
 import unittest
 import time
@@ -60,8 +61,21 @@ class WikipediaFlow(unittest.TestCase):
         self.assertTrue(
             self.driver.find_element_by_id("org.wikipedia:id/addContributionButton").is_displayed())
 
-
-
+    def test_edit_description_with_random_values(self):
+        self.driver.find_element_by_id("org.wikipedia:id/addContributionButton").click()
+        # read file
+        with open('wikipediaTestData.json', 'r') as myfile:
+            data = myfile.read()
+        # parse file
+        test_values = json.loads(data)
+        for test_value in test_values:
+            description = test_value["description"]
+            #TODO send keys con desc
+            time.sleep(1)
+            #TODO click chulito
+            #TODO validate desc is disoayed
+            self.driver.back()
+            self.driver.back()
 
     @classmethod
     def tearDownClass(cls):
