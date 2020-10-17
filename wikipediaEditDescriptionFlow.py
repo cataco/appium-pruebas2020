@@ -16,7 +16,7 @@ class WikipediaFlow(unittest.TestCase):
         "platformName": "Android",
         "automationName": "UiAutomator2",
         "deviceName": "emulator-5556",
-        "app": os.environ.get('apk')
+        "app": "/Users/ccordob/Downloads/wikipedia-2-7-50332-r-2020-09-28.apk"
     }
     testName = 'Untitled'
     driver = None
@@ -61,8 +61,7 @@ class WikipediaFlow(unittest.TestCase):
         self.assertTrue(
             self.driver.find_element_by_id("org.wikipedia:id/addContributionButton").is_displayed())
 
-    def test_edit_description_with_random_values(self):
-        self.driver.find_element_by_id("org.wikipedia:id/addContributionButton").click()
+    def test_several_description_with_random_values(self):
         # read file
         with open('wikipediaTestData.json', 'r') as myfile:
             data = myfile.read()
@@ -70,10 +69,14 @@ class WikipediaFlow(unittest.TestCase):
         test_values = json.loads(data)
         for test_value in test_values:
             description = test_value["description"]
-            #TODO send keys con desc
+            self.driver.find_element_by_id("org.wikipedia:id/addContributionButton").click()
             time.sleep(1)
-            #TODO click chulito
-            #TODO validate desc is disoayed
+            self.driver.find_element_by_id("org.wikipedia:id/view_description_edit_text").send_keys(description)
+            time.sleep(1)
+            self.driver.find_element_by_id("org.wikipedia:id/view_description_edit_save_button").click()
+            time.sleep(2)
+            article_subtitle = self.driver.find_element_by_id("org.wikipedia:id/articleSubtitle").get_attribute("text")
+            self.assertEquals(description, 'article_subtitle', "Error with description: " + description)
             self.driver.back()
             self.driver.back()
 

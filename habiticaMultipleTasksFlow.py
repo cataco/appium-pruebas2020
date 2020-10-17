@@ -60,14 +60,15 @@ class habiticaMultipleTasksFlow(unittest.TestCase):
             self.driver.find_element_by_id("com.habitrpg.android.habitica:id/notes_edit_text").send_keys(task_notes)
             self.driver.back()
             time.sleep(1)
-            if(task_difficulty == 'Easy'):
+            if (task_difficulty == 'Easy'):
                 diffculty_selector = task_difficulty + ", Selected"
             else:
                 diffculty_selector = task_difficulty + ", Not selected"
             self.driver.find_element_by_accessibility_id(diffculty_selector).click()
             self.driver.find_element_by_id('com.habitrpg.android.habitica:id/action_save').click()
             time.sleep(2)
-            self.assertTrue(self.driver.find_element_by_xpath("//*[@text='" + task_title + "']").is_displayed())
+            self.assertTrue(self.driver.find_element_by_xpath("//*[@text='" + task_title + "']").is_displayed(),
+                            "Error with task of type: " + task_type + ". and title: " + task_title)
             self.driver.find_element_by_id("com.habitrpg.android.habitica:id/main_task_wrapper").click()
             time.sleep(1)
             self.driver.find_element_by_id("com.habitrpg.android.habitica:id/action_delete").click()
