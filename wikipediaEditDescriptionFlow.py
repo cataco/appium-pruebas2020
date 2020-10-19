@@ -15,8 +15,8 @@ class WikipediaFlow(unittest.TestCase):
     dc = {
         "platformName": "Android",
         "automationName": "UiAutomator2",
-        "deviceName": "emulator-5556",
-        "app": "/Users/ccordob/Downloads/wikipedia-2-7-50332-r-2020-09-28.apk"
+        "avd": os.environ.get('adv'),
+        "app": os.environ.get('apk')
     }
     testName = 'Untitled'
     driver = None
@@ -30,7 +30,7 @@ class WikipediaFlow(unittest.TestCase):
         cls.dc['appPackage'] = 'org.wikipedia'
         cls.dc['appActivity'] = '.main.MainActivity'
         cls.dc['platformName'] = 'android'
-        cls.driver = webdriver.Remote('http://{}:4723/wd/hub'.format(os.environ.get('environment_id')), cls.dc)
+        cls.driver = webdriver.Remote('http://{}:{}/wd/hub'.format(os.environ.get('environment_id'), os.environ.get('SELENIUM_PORT')), cls.dc)
 
     def test_login(self):
         self.driver.find_element_by_id('org.wikipedia:id/fragment_onboarding_skip_button').click()

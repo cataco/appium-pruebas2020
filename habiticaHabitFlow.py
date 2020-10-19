@@ -14,7 +14,7 @@ class HabiticaHabitFlow(unittest.TestCase):
     dc = {
         "platformName": "Android",
         "automationName": "UiAutomator2",
-        "deviceName": "emulator-5556",
+        "avd": os.environ.get('adv'),
         "app": os.environ.get('apk')
     }
     testName = 'Untitled'
@@ -29,7 +29,7 @@ class HabiticaHabitFlow(unittest.TestCase):
         cls.dc['appPackage'] = 'com.habitrpg.android.habitica'
         cls.dc['appActivity'] = '.ui.activities.MainActivity'
         cls.dc['platformName'] = 'android'
-        cls.driver = webdriver.Remote('http://{}:4723/wd/hub'.format(os.environ.get('environment_id')), cls.dc)
+        cls.driver = webdriver.Remote('http://{}:{}/wd/hub'.format(os.environ.get('environment_id'), os.environ.get('SELENIUM_PORT')), cls.dc)
 
     def test_create_habit(self):
         self.driver.find_element_by_id('com.habitrpg.android.habitica:id/skipButton').click()
