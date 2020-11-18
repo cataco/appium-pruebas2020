@@ -13,10 +13,12 @@ class WikipediaFlow(unittest.TestCase):
     reportDirectory = 'reports'
     reportFormat = 'xml'
     dc = {
-        "platformName": "Android",
-        "automationName": "UiAutomator2",
-        "avd": os.environ.get('adv'),
-        "app": os.environ.get('apk')
+        'platformName': 'Android',
+        'deviceName': 'Android Emulator',
+        'automationName': 'UIAutomator2',
+        'avd': os.environ.get('adv'),
+        "app": os.environ.get('app'),
+        'appWaitActivity': '8000'
     }
     testName = 'Untitled'
     driver = None
@@ -26,11 +28,20 @@ class WikipediaFlow(unittest.TestCase):
         cls.dc['reportDirectory'] = cls.reportDirectory
         cls.dc['reportFormat'] = cls.reportFormat
         cls.dc['testName'] = cls.testName
-        cls.dc['udid'] = 'emulator-5554'
-        cls.dc['appPackage'] = 'org.wikipedia'
-        cls.dc['appActivity'] = '.main.MainActivity'
+        cls.dc['udid'] = ''
         cls.dc['platformName'] = 'android'
-        cls.driver = webdriver.Remote('http://{}:{}/wd/hub'.format(os.environ.get('environment_id'), os.environ.get('SELENIUM_PORT')), cls.dc)
+        cls.dc['appPackage'] = 'org.wikipedia'
+        cls.dc['appActivity'] = 'org.wikipedia.main.MainActivity'
+        cls.dc['appWaitPackage'] = 'org.wikipedia'
+        cls.dc['appWaitActivity'] = 'org.wikipedia.*'
+        connected = False
+        while not connected:
+            time.sleep(10)
+            try:
+                cls.driver = webdriver.Remote('http://{}/wd/hub'.format('selenium_hub:4444'), cls.dc)
+                connected = True
+            except:
+                pass
 
     def test_login(self):
         self.driver.find_element_by_id('org.wikipedia:id/fragment_onboarding_skip_button').click()

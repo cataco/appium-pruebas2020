@@ -13,10 +13,12 @@ class HabiticaDailyFlow(unittest.TestCase):
     reportDirectory = 'reports'
     reportFormat = 'xml'
     dc = {
-        "platformName": "Android",
-        "automationName": "UiAutomator2",
-        "avd": os.environ.get('adv'),
-        "app": os.environ.get('apk')
+        'platformName': 'Android',
+        'deviceName': 'Android Emulator',
+        'automationName': 'UIAutomator2',
+        'avd': os.environ.get('adv'),
+        'appWaitActivity': '8000'
+
     }
     testName = 'Untitled'
     driver = None
@@ -26,12 +28,12 @@ class HabiticaDailyFlow(unittest.TestCase):
         cls.dc['reportDirectory'] = cls.reportDirectory
         cls.dc['reportFormat'] = cls.reportFormat
         cls.dc['testName'] = cls.testName
-        cls.dc['udid'] = 'emulator-5554'
+        cls.dc['udid'] = ''
         cls.dc['appPackage'] = 'com.habitrpg.android.habitica'
         cls.dc['appActivity'] = '.ui.activities.MainActivity'
         cls.dc['platformName'] = 'android'
-        cls.driver = webdriver.Remote('http://{}:{}/wd/hub'.format(os.environ.get('environment_id'), os.environ.get('SELENIUM_PORT')), cls.dc)
-
+        cls.driver = webdriver.Remote(
+            'http://{}:{}/wd/hub'.format(os.environ.get('environment_id'), os.environ.get('SELENIUM_PORT')), cls.dc)
 
     def test_create_daily(self):
         self.driver.find_element_by_id('com.habitrpg.android.habitica:id/skipButton').click()
@@ -62,7 +64,8 @@ class HabiticaDailyFlow(unittest.TestCase):
 
     @pytest.mark.dependency(depends=["test_read_daily"])
     def test_edit_daily(self):
-        self.driver.find_element_by_id("com.habitrpg.android.habitica:id/text_edit_text").send_keys('apippium daily-EDIT')
+        self.driver.find_element_by_id("com.habitrpg.android.habitica:id/text_edit_text").send_keys(
+            'apippium daily-EDIT')
         self.driver.find_element_by_id('com.habitrpg.android.habitica:id/action_save').click()
         time.sleep(2)
         self.assertTrue(self.driver.find_element_by_xpath("//*[@text='apippium daily-EDIT']").is_displayed())
@@ -75,12 +78,12 @@ class HabiticaDailyFlow(unittest.TestCase):
         time.sleep(1)
         self.driver.find_element_by_xpath("//*[@text='Delete Task']").click()
         time.sleep(1)
-        self.assertTrue(self.driver.find_element_by_id("com.habitrpg.android.habitica:id/emptyViewTitle").is_displayed())
+        self.assertTrue(
+            self.driver.find_element_by_id("com.habitrpg.android.habitica:id/emptyViewTitle").is_displayed())
 
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
-
 
     if __name__ == '__main__':
         unittest.main()

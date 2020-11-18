@@ -12,10 +12,11 @@ class WikipediaFlow(unittest.TestCase):
     reportDirectory = 'reports'
     reportFormat = 'xml'
     dc = {
-        "platformName": "Android",
-        "automationName": "UiAutomator2",
-        "avd": os.environ.get('adv'),
-        "app": os.environ.get('apk')
+        'platformName': 'Android',
+        'deviceName': 'Android Emulator',
+        'automationName': 'UIAutomator2',
+        'avd': os.environ.get('adv'),
+        "app": "/root/tmp/medias/mobile/{}".format(os.environ.get('apk'))
     }
     testName = 'Untitled'
     driver = None
@@ -25,11 +26,12 @@ class WikipediaFlow(unittest.TestCase):
         cls.dc['reportDirectory'] = cls.reportDirectory
         cls.dc['reportFormat'] = cls.reportFormat
         cls.dc['testName'] = cls.testName
-        cls.dc['udid'] = 'emulator-5554'
+        cls.dc['udid'] = ''
         cls.dc['appPackage'] = 'org.wikipedia'
         cls.dc['appActivity'] = '.main.MainActivity'
         cls.dc['platformName'] = 'android'
-        cls.driver = webdriver.Remote('http://{}:{}/wd/hub'.format(os.environ.get('environment_id'), os.environ.get('SELENIUM_PORT')), cls.dc)
+        cls.driver = webdriver.Remote(
+            'http://{}:{}/wd/hub'.format(os.environ.get('environment_id'), os.environ.get('SELENIUM_PORT')), cls.dc)
 
     def test_search(self):
         self.driver.find_element_by_id('org.wikipedia:id/fragment_onboarding_skip_button').click()
@@ -39,7 +41,8 @@ class WikipediaFlow(unittest.TestCase):
         time.sleep(1)
         self.driver.find_element_by_xpath("//*[@text='Country in the northwestern part of South America']").click()
         time.sleep(5)
-        self.assertTrue(self.driver.find_element_by_id("org.wikipedia:id/view_page_header_image_gradient_top").is_displayed())
+        self.assertTrue(
+            self.driver.find_element_by_id("org.wikipedia:id/view_page_header_image_gradient_top").is_displayed())
 
     def test_search_change_content_navigation(self):
         self.driver.find_element_by_id('org.wikipedia:id/article_menu_show_toc').click()

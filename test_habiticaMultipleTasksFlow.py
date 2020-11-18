@@ -12,10 +12,12 @@ class habiticaMultipleTasksFlow(unittest.TestCase):
     reportDirectory = 'reports'
     reportFormat = 'xml'
     dc = {
-        "platformName": "Android",
-        "automationName": "UiAutomator2",
-        "deviceName": "Nexus 5 API 30",
-        "app": "/Users/ccordob/Downloads/habitica-3-0-1-1.apk",
+        'platformName': 'Android',
+        'deviceName': 'Android Emulator',
+        'automationName': 'UIAutomator2',
+        'avd': os.environ.get('adv'),
+        'appWaitActivity': '8000'
+
     }
     testName = 'Untitled'
     driver = None
@@ -25,11 +27,12 @@ class habiticaMultipleTasksFlow(unittest.TestCase):
         cls.dc['reportDirectory'] = cls.reportDirectory
         cls.dc['reportFormat'] = cls.reportFormat
         cls.dc['testName'] = cls.testName
-        cls.dc['udid'] = 'emulator-5554'
+        cls.dc['udid'] = ''
         cls.dc['appPackage'] = 'com.habitrpg.android.habitica'
         cls.dc['appActivity'] = '.ui.activities.MainActivity'
         cls.dc['platformName'] = 'android'
-        cls.driver = webdriver.Remote('http://localhost:4723/wd/hub', cls.dc)
+        cls.driver = webdriver.Remote(
+            'http://{}:{}/wd/hub'.format(os.environ.get('environment_id'), os.environ.get('SELENIUM_PORT')), cls.dc)
 
     def test_create_tasks_with_random_data(self):
         self.driver.find_element_by_id('com.habitrpg.android.habitica:id/skipButton').click()
